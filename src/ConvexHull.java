@@ -29,6 +29,8 @@ public class ConvexHull
 	public void clear()
 	{
 		p = new ArrayList<Point>();
+		up = new ArrayList<Point>();
+		low = new ArrayList<Point>();
 	}
 
 	private static int ccw(Point p, Point q, Point r)

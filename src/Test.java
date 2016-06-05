@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -21,13 +23,14 @@ public class Test extends JFrame
 		pack();
 	}
 
-	static class Panel extends JPanel implements MouseListener
+	static class Panel extends JPanel implements MouseListener, KeyListener
 	{
 		public Panel()
 		{
 			setPreferredSize(new Dimension(750, 750));
 			setFocusable(true);
 			addMouseListener(this);
+			addKeyListener(this);
 		}
 
 		public void paintComponent(Graphics g)
@@ -61,6 +64,24 @@ public class Test extends JFrame
 
 		@Override
 		public void mouseReleased(MouseEvent e)
+		{
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e)
+		{
+			convexHull.clear();
+			repaint();
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e)
+		{
+
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e)
 		{
 		}
 	}
