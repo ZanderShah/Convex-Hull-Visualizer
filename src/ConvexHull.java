@@ -128,7 +128,7 @@ public class ConvexHull
 
 		g.setFont(new Font(Font.MONOSPACED, 0, 20));
 		g.drawString(String.format("Minimum Area: %s", (c.size() <= 3 ? "N/A"
-				: minArea + "px\u00B2")), 50, 50);
+				: minArea)), 50, 50);
 
 		g.setColor(Color.GREEN);
 		for (int i = 0; i < c.size() - 1; i++)
