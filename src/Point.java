@@ -1,32 +1,42 @@
-public class Point implements Comparable<Point>
+class Point implements Comparable<Point>
 {
-	private int x, y;
+	private double x, y;
 
-	Point(int xx, int yy)
+	Point(double xx, double yy)
 	{
 		x = xx;
 		y = yy;
 	}
 
-	public int x()
+	public int compareTo(Point p)
+	{
+		if (x == p.x())
+			return ((Double) y).compareTo(p.y());
+		return ((Double) x).compareTo(p.x());
+	}
+
+	public double x()
 	{
 		return x;
 	}
 
-	public int y()
+	public double y()
 	{
 		return y;
-	}
-
-	public int compareTo(Point p)
-	{
-		if (x == p.x)
-			return y - p.y;
-		return x - p.x;
 	}
 
 	public String toString()
 	{
 		return x + " " + y;
+	}
+
+	public Point subtract(Point p)
+	{
+		return new Point(x - p.x(), y - p.y());
+	}
+
+	public Point divide(Double scalar)
+	{
+		return new Point(x / scalar, y / scalar);
 	}
 }
