@@ -90,6 +90,7 @@ public class Test extends JFrame
 	{
 		convexHull = new ConvexHull();
 		Test convexHullVisualizer = new Test();
+		convexHullVisualizer.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		convexHullVisualizer.setVisible(true);
 	}
 
