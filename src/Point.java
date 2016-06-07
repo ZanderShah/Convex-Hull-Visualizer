@@ -35,8 +35,18 @@ class Point implements Comparable<Point>
 		return new Point(x - p.x(), y - p.y());
 	}
 
+	public Point add(Point p)
+	{
+		return new Point(x + p.x(), y + p.y());
+	}
+
 	public Point divide(Double scalar)
 	{
 		return new Point(x / scalar, y / scalar);
+	}
+
+	public Point multiply(Double scalar)
+	{
+		return new Point(x * scalar, y * scalar);
 	}
 }

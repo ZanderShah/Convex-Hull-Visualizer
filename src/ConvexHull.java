@@ -21,7 +21,8 @@ public class ConvexHull
 	public void addPoint(Point x)
 	{
 		p.add(x);
-		compute();
+		if (p.size() >= 3)
+			compute();
 	}
 
 	public void clear()
@@ -54,6 +55,16 @@ public class ConvexHull
 				* (a.y() - b.y()));
 	}
 
+	private static double dist2(Point a)
+	{
+		return Math.sqrt(a.x() * a.x() + a.y() * a.y());
+	}
+
+	private double angle(Point a, Point b)
+	{
+		return Math.acos(dot(a, b) / (dist2(a) * dist2(b)));
+	}
+
 	public void compute()
 	{
 		Collections.sort(p);
@@ -77,7 +88,7 @@ public class ConvexHull
 			c.add(p.get(i));
 		}
 
-		// Rotaing calipers
+		// Rotating calipers
 		int l = 1, r = 1, u = 1, n = c.size() - 1;
 		long area = Long.MAX_VALUE;
 
@@ -108,12 +119,12 @@ public class ConvexHull
 			{
 				area = (long) (w * h);
 				b = new ArrayList<Point>();
-				// Edge, Upper-most point, Left-most point, Right-most point
+				// Edge, Left-most point, Right-most point, Upper-most point
 				b.add(c.get(i));
 				b.add(c.get(i + 1));
-				b.add(c.get(u % n));
 				b.add(c.get(l % n));
 				b.add(c.get(r % n));
+				b.add(c.get(u % n));
 			}
 		}
 
@@ -128,7 +139,7 @@ public class ConvexHull
 
 		g.setFont(new Font(Font.MONOSPACED, 0, 20));
 		g.drawString(String.format("Minimum Area: %s", (c.size() <= 3 ? "N/A"
-				: minArea + "px\u00B2")), 50, 50);
+				: minArea + "px")), 50, 50);
 
 		g.setColor(Color.GREEN);
 		for (int i = 0; i < c.size() - 1; i++)
@@ -140,12 +151,31 @@ public class ConvexHull
 			return;
 
 		g.setColor(Color.RED);
-		g.drawLine((int) b.get(0).x(), (int) b.get(0).y(), (int) b.get(1).x(),
-				(int) b.get(1).y());
-		g.setColor(Color.BLUE);
-		g.fillRect((int) b.get(2).x(), (int) b.get(2).y(), 8, 8);
-		g.setColor(Color.ORANGE);
-		g.fillRect((int) b.get(3).x(), (int) b.get(3).y(), 6, 6);
-		g.fillRect((int) b.get(4).x(), (int) b.get(4).y(), 4, 4);
+		Point edge = b.get(1).subtract(b.get(0));
+		Point left = b.get(2).subtract(b.get(0));
+		Point right = b.get(3).subtract(b.get(1));
+
+		Point normal = new Point(-edge.y(), edge.x()).divide(dist2(edge))
+				.multiply(dist(b.get(4), b.get(0))
+						* Math.sin(angle(edge,
+								b.get(4).subtract(b.get(0)))));
+
+		Point lowerLeft = edge.multiply(dot(edge, left)
+				/ (dist2(edge) * dist2(edge))).add(b.get(0));
+		Point lowerRight = edge.multiply(dot(edge, right)
+				/ (dist2(edge) * dist2(edge))).add(b.get(1));
+
+		g.drawLine((int) lowerLeft.x(), (int) lowerLeft.y(),
+				(int) lowerRight.x(), (int) lowerRight.y());
+		g.drawLine((int) lowerLeft.x(), (int) lowerLeft.y(),
+				(int) normal.add(lowerLeft).x(), (int) normal.add(lowerLeft)
+						.y());
+		g.drawLine((int) lowerRight.x(), (int) lowerRight.y(),
+				(int) normal.add(lowerRight).x(), (int) normal.add(lowerRight)
+						.y());
+		g.drawLine((int) normal.add(lowerLeft).x(), (int) normal.add(lowerLeft)
+				.y(), (int) normal.add(lowerRight).x(),
+				(int) normal.add(lowerRight)
+						.y());
 	}
 }
