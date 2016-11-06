@@ -137,12 +137,7 @@ public class ConvexHull
 		for (Point i : p)
 			g.fillRect((int) i.x(), (int) i.y(), 4, 4);
 
-		g.setFont(new Font(Font.MONOSPACED, 0, 20));
-		g.drawString(
-				String.format("Minimum Area: %s", (c.size() <= 3 ? "N/A"
-						: minArea + "px")), 50, 50);
-
-		g.setColor(Color.GREEN);
+		g.setColor(Color.CYAN);
 		for (int i = 0; i < c.size() - 1; i++)
 			g.drawLine((int) c.get(i).x(), (int) c.get(i).y(),
 					(int) c.get(i + 1).x(),
@@ -151,7 +146,7 @@ public class ConvexHull
 		if (b.size() == 0)
 			return;
 
-		g.setColor(Color.RED);
+		g.setColor(Color.DARK_GRAY);
 		Point edge = b.get(1).subtract(b.get(0));
 		Point left = b.get(2).subtract(b.get(0));
 		Point right = b.get(3).subtract(b.get(1));
